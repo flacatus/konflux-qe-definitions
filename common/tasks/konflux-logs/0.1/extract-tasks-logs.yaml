@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: pull-request-commenter
+spec:
+  params:
+    - name: test-name
+      type: string
+      description: The name of the test being executed.
+  steps:
+    - name: extract-konflux-tasks-logs
+      workingDir: /workspace
+      onError: continue
+      image: quay.io/konflux-qe-incubator/konflux-qe-tools:latest
+      script: |
+        #!/bin/sh
+
+        oc get po -n rhtap-shared-team-tenant
